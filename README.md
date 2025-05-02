@@ -126,6 +126,23 @@ Run on a php server locally. This has been tested on PHP version 8.3.12. You can
     - ... Here gained access to network information
     - `lsof -P` is another way for more network information (Eg. `TCP localhost:5001 (LISTEN)` output telling you a port is listening at the server)
     - `iptables`, `firewalld`, etc to inspect allowed ports.
+- http://localhost:8888/hacks/uploader
+    - Vulnerabilities may exist or not depending on the PHP environment and OS
+    - Passed on MacBook Pro M1 running MAMP PHP v8.3.12 local server:
+        - File Upload Bypass Leading to Directory Traversal
+            - Tested by uploading filename `../../../test.txt` and filename `..%2F..%2F..%2Ftest.txt`. If file able to place outside the expected upload folder, then the hacker can place htaccess and other files by naming the file with preceding `../`'s
+            - Would solve with: `$safeName = basename($_FILES['file']['name']);`
+        - File Upload Bypass Leading to Remote Code Execuion (RCE)
+            - Tested by uploading `hacked.php.jpg`, which bypasses whitelisting certain file extensions as acceptable uploads, and then running it in web browser actually executes the php. Then the hacker can run php code like shell_exec, phpinfo, etc that will expose the system. The hacker could also add a $_GET parameter that takes commands and runs them, as the PHP server privilege with a php.jpg script that is written `<?php system($_GET['cmd']); ?>`, and commands they can load to help hack your server could be `?cmd=whoami` to get the username of the php server that they can brute force in later.
+            - You could fix in various ways. One way is to change all periods to hyphen except the final period for file extension. Another way is to enforce strict file extension and MIME types. Another way is to restrict all uploads to one folder by getting only basename, and also restricting that folder chmod from execution and in apache or nginx you can disable php execution in that folder.
+    - Failed on MacBook Pro M1 running MAMP PHP v8.3.12 local server:
+        - File Upload Bypass Leading to XSS
+            - Uploaded file `"><img src=x onerror=alert(1)>.jpg` which immediately alerted a 1. Now I increase the complexity of the upload bypass xss by introducing other quotes by uploading a file `"><img src=x onerror=alert('Hacked')>.jpg`, and that also caused an alert (showing the word "Hacked").
+            - This means the hacker can inject even more severe code such as stealing cookies and sending them to an external server (the hacker's server should have enabled CORS).
+    - Other Considerations (Not considered by our sample code)
+        - Whitelist / allow only specific file extensions and MIME at frontend where user interacts with Upload interface AS WELL as backend where the temp file is created and moved to final destination.
+        - If not whitelist and instead blocking file extensions, you can't simply block them all. Here's an article of an ethical hacker uploading a pHp5 file extension (notice variation in the capitalization): https://sagarsajeev.medium.com/file-upload-bypass-to-rce-76991b47ad8f
+
 
 ## Warning
 ⚠️ **IMPORTANT**: This repository contains intentionally vulnerable code. Do not deploy this code in production environments or expose it to untrusted networks. Use only in controlled testing environments.
