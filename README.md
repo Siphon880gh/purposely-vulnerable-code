@@ -28,6 +28,12 @@ Run on a php server locally. This has been tested on PHP version 8.3.12. You can
 
 ## Example vulnerabilities
 - http://localhost:8888/hacks/echo/?name=%3Cscript%3Ealert(%22You%27re%20hacked!%22);%3C/script%3E
+    - Cross-site scripting (XSS)
+    - Classification: 
+        - CAPEC	19
+        - CWE	79
+        - WASC	8
+        - OWASP 2021	A3
 - http://localhost:8888/hacks/commands-php/?user-role=admin;phpinfo();
 - http://localhost:8888/hacks/open-file/?filepath=../.env
 - http://localhost:8888/hacks/open-file/?filepath=%2e.%2f.env
