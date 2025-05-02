@@ -9,6 +9,7 @@ This repository contains intentionally vulnerable code designed to test AI-power
 - Provide a controlled environment for security testing
 - Serve as a reference for understanding common security vulnerabilities
 - Continuously expand with new vulnerabilities and security test cases over time
+- Demonstrate how sensitive environment variables can be exposed through `.env` files in version control (intentionally included to test security scanners)
 
 ## Author
 Created by Weng Fei Fung
@@ -19,6 +20,7 @@ This repository is intended for:
 - AI tool developers
 - Security testing professionals
 - Educational purposes
+
 
 ## Warning
 ⚠️ **IMPORTANT**: This repository contains intentionally vulnerable code. Do not deploy this code in production environments or expose it to untrusted networks. Use only in controlled testing environments.
