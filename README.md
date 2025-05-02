@@ -143,6 +143,15 @@ Run on a php server locally. This has been tested on PHP version 8.3.12. You can
         - Whitelist / allow only specific file extensions and MIME at frontend where user interacts with Upload interface AS WELL as backend where the temp file is created and moved to final destination.
         - If not whitelist and instead blocking file extensions, you can't simply block them all. Here's an article of an ethical hacker uploading a pHp5 file extension (notice variation in the capitalization): https://sagarsajeev.medium.com/file-upload-bypass-to-rce-76991b47ad8f
 
+## More Reading
+I'm developing exensive security checklists and notes at my developer notes:
+https://wengindustries.com/app/devbrain/?open=Security%20Checklists%20-%20PRIMER
+
+Invicti has a great guide on web vulnerabilities:
+https://www.invicti.com/learn/vulnerabilities/
+
+And their scanner's exhaustive list of vulnerabilities:
+https://www.invicti.com/web-vulnerability-scanner/vulnerabilities/
 
 ## Warning
 ⚠️ **IMPORTANT**: This repository contains intentionally vulnerable code. Do not deploy this code in production environments or expose it to untrusted networks. Use only in controlled testing environments.
