@@ -1,10 +1,10 @@
-# AI Security Testing Repository
+# Security Testing Repository
 
 ## Overview
 This repository contains intentionally vulnerable code designed to test AI-powered IDE tools and security scanners. The codebase serves as a testing ground to evaluate the effectiveness of various security analysis tools in detecting vulnerabilities.
 
 ## Purpose
-- Test AI-powered IDE tools' ability to detect security vulnerabilities
+- Test AI-powered IDE tools' ability to detect security vulnerabilities. You can prompt the Agent to `What are the vulnerabilities in my code`.
 - Evaluate security scanners' effectiveness in identifying common security issues
 - Provide a controlled environment for security testing
 - Serve as a reference for understanding common security vulnerabilities
