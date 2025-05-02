@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS security_test_db;
-CREATE DATABASE security_test_db;
-USE security_test_db;
+DROP DATABASE IF EXISTS security_comments_db;
+CREATE DATABASE security_comments_db;
+USE security_comments_db;
 
 -- Create comments table
 CREATE TABLE IF NOT EXISTS comments (

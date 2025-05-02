@@ -5,8 +5,8 @@ This project provides a test environment for experimenting with MySQL injection 
 ## Setup Instructions
 
 ### Database Configuration
-- Database name: `security_test_db`
-- If you wish to use a different database name than `security_test_db`, you'll need to update it in both:
+- Database name: `security_comments_db`
+- If you wish to use a different database name than `security_comments_db`, you'll need to update it in both:
   - `seed.sql`
   - `index.php`
 - No need to create the database first before running this code because the seed.sql will drop the database if exists then recreates it.

@@ -53,16 +53,29 @@ Run on a php server locally. This has been tested on PHP version 8.3.12. You can
 - http://localhost:8888/hacks/echo/?name=hi4;%3Cscript%3Ewindow.location.href=%22https://domain.com%22%3C/script%3E
     - Cross-site scripting (XSS) with Phishing
     - Here when URL is shared, redirects user to hacker's website. Note the hacker could take things further by making the website look similar to the website the url normally opens to, and then tricks the user to logging in, which can easily store the user credentials since the page is on the hacker's server.
-- http://localhost:8888/hacks/sql/
+- http://localhost:8888/hacks/sql-xss/
     - SQL Injection (SQLi)
     - Here exploited by storing javascript that renders on a comments page. It's usually to ruin the reputation of a website or to boast that they're hacked by you. A hacker can take it further by having the javascript send cookies information about the logged in user to an external server in order to gain their credentials, simply done with fetch and enabling CORS on the hacker's private server.
     ![](README-assets/sqlinjection-hacker.png)
     ![](README-assets/sqlinjection-table.png)
+    - The code injected into MySQL is:
+    ```
+    <script>alert("You're hacked by Weng Hackers Group!");</script>
+    ```
     - Classification: 
         - CAPEC	66
         - CWE	89
         - WASC	19
         - OWASP 2021	A3
+
+- http://localhost:8888/hacks/sql-auth/
+    - SQL Injection (SQLi) with Authentication Bypass 
+    - Username: `' OR 1=1 --'`. Note in other vulnerable pages, the username may be missing the single quote at the end: `' OR 1=1 --`
+    - Password doesn't matter. You will be logged in successfully without knowing the user's password. Just enter anything in password.
+    - Here it lists all the users, but this hack does not necessarily do this. Usually the developer does not render debug information of what user(s) matched in a MySQL query
+    - How it works:
+    - This query `SELECT id, username, password FROM users WHERE username = '$username' AND password = '$password` got corrupted into `SELECT id, username, password FROM users WHERE username = '' OR 1=1 --....` where the username field terminated early and is unioned into truthy "1=1". The password has been dropped off where `--` is because that makes everything after it become a comment!
+    - ![](README-assets/sqlbypass.png)
 - http://localhost:8888/hacks/commands-php/?user-role=admin;phpinfo();
     - Remote Code Execution (RCE)
     - Here exploited to reveal PHP information that can be used for further attacks.
