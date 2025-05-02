@@ -70,11 +70,12 @@ Run on a php server locally. This has been tested on PHP version 8.3.12. You can
 
 - http://localhost:8888/hacks/sql-auth/
     - SQL Injection (SQLi) with Authentication Bypass 
-    - Username: `' OR 1=1 --'`. Note in other vulnerable pages, the username may be missing the single quote at the end: `' OR 1=1 --`
+    - Username: `' OR 1=1 --'`. Note usually, you don't enter the single quote at the end of the username: `' OR 1=1 --`. Try both variations.
     - Password doesn't matter. You will be logged in successfully without knowing the user's password. Just enter anything in password.
     - Not the usual case: Here it lists all the users, but this hack does not necessarily do this. Usually the developer does not render debug information of what user(s) matched in a MySQL query. Here we render for debugging purposes and to highlight the importance of hashing the passwords. Even if it gets dumped, these hashes are computationally impractical timewise to reverse engineer back into plain passwords.
     - How it works:
-    - This query `SELECT id, username, password FROM users WHERE username = '$username' AND password = '$password` got corrupted into `SELECT id, username, password FROM users WHERE username = '' OR 1=1 --....` where the username field terminated early and is unioned into truthy "1=1". The password has been dropped off where `--` is because that makes everything after it become a comment!
+    - This query `SELECT id, username, password FROM users WHERE username = '$username' AND password = '$password` got corrupted into `SELECT id, username, password FROM users WHERE username = '' OR 1=1 --....` where the username field terminated early and is unioned into truthy "1=1". The password requirement for matching where has been dropped off where `--` is because that makes everything after it become a comment!
+    - On the off chance that the code checks password AND username, rather than username AND password, then you can try the 1=1 in the password instead. Or review your team member's code.
     - ![](README-assets/sqlbypass.png)
 - http://localhost:8888/hacks/commands-php/?user-role=admin;phpinfo();
     - Remote Code Execution (RCE)
